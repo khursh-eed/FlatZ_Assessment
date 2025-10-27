@@ -26,6 +26,9 @@ async def get_leaderboard(session: AsyncSession = Depends(db.get_session)):
     lb = await crud.top_n_users(session, n=10)
     return lb
 
+# is this working
+
+
 
 
 
