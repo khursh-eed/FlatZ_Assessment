@@ -1,24 +1,48 @@
 from pydantic import BaseModel
 from typing import Optional, List
-import datetime
+from datetime import datetime
 
-class ActivityCreate(BaseModel):
-    user_id: int
-    feature_name: str
-    timestamp: Optional[datetime.datetime] = None
+class UserBase(BaseModel):
+    name: str
+    flat_no: str
+    block: str
+    email: str
 
-class ActivityOut(BaseModel):
+
+class UserCreate(UserBase):
+    joined_date: datetime
+
+
+class UserOut(UserBase):
     id: int
+    joined_date: datetime
+
+    class Config:
+        orm_mode = True
+
+
+
+class ActivityBase(BaseModel):
     user_id: int
     feature_name: str
-    timestamp: datetime.datetime
+    activity_type: str
+
+
+class ActivityCreate(ActivityBase):
+    timestamp: Optional[datetime] = None
+
+
+class ActivityOut(ActivityBase):
+    id: int
+    timestamp: datetime
+
     class Config:
         orm_mode = True
 
 class ScoreOut(BaseModel):
     user_id: int
     score: float
-    last_activity: Optional[datetime.datetime] = None
+    last_activity: Optional[datetime] = None
 
 class LeaderboardEntry(BaseModel):
     user_id: int
